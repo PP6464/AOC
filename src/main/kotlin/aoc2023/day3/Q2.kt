@@ -6,7 +6,7 @@ fun main() {
 	val lines = File("assets/2023/day3/input.txt").readLines()
 	val engineSchematic = EngineSchematic.fromLines(lines)
 	var gearRatioSums = 0
-	engineSchematic.`*s`.map {
+	engineSchematic.`⭐s`.map {
 		val numbersAdjacentTo = mutableListOf<Number>()
 		for (number in engineSchematic.numbers) {
 			if (((number.first.first.first - 1) .. (number.first.first.last + 1)).contains(it.first) && ((number.first.second - 1) .. (number.first.second + 1)).contains(it.second)) {

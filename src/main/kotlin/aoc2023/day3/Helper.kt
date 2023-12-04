@@ -11,12 +11,12 @@ infix fun IntRange.bounds(integer: Int) : Int =
 		last
 	else integer
 
-data class EngineSchematic(val numbers: List<Pair<Pair<IntRange, Int>, Number>>, val `*s`: List<Pair<Int, Int>>) {
+data class EngineSchematic(val numbers: List<Pair<Pair<IntRange, Int>, Number>>, val `⭐s`: List<Pair<Int, Int>>) {
 		companion object {
 			fun fromLines(lines: List<String>) : EngineSchematic {
 				val lineHeightIndexRange = lines.indices
 				val allNumbers = mutableListOf<Pair<Pair<IntRange, Int>, Number>>()
-				val `all*s` = mutableListOf<Pair<Int, Int>>()
+				val `all⭐s` = mutableListOf<Pair<Int, Int>>()
 				for ((index, line) in lines.withIndex()) {
 					val integers = Regex("\\d+").findAll(line).map { it.range to it.value.toInt() }.toList()
 					val lineWidthIndexRange = line.indices
@@ -54,13 +54,13 @@ data class EngineSchematic(val numbers: List<Pair<Pair<IntRange, Int>, Number>>,
 							}.toSet()
 						)
 					}
-					val `*s` = line.withIndex().filter { (_, v) -> v == '*' }.map { (j, _) -> (j to index) }
+					val `⭐s` = line.withIndex().filter { (_, v) -> v == '*' }.map { (j, _) -> (j to index) }
 					allNumbers.addAll(numbers)
-					`all*s`.addAll(`*s`)
+					`all⭐s`.addAll(`⭐s`)
 				}
 				return EngineSchematic(
 					numbers = allNumbers,
-					`*s` = `all*s`
+					`⭐s` = `all⭐s`
 				)
 			}
 		}
