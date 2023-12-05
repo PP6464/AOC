@@ -1,18 +1,21 @@
 package aoc2023.day5
 
 data class Almanac(
-	val seeds: List<Long>,
-	val seedToSoilMap: Map<Long, Long>,
-	val soilToFertilizerMap: Map<Long, Long>,
-	val fertilizerToWaterMap: Map<Long, Long>,
-	val waterToLightMap: Map<Long, Long>,
-	val lightToTemperatureMap: Map<Long, Long>,
-	val temperatureToHumidityMap: Map<Long, Long>,
-	val humidityToLocationMap: Map<Long, Long>
+	val seeds : List<Long>,
+	val seedToSoilMap : Map<Long, Long>,
+	val soilToFertilizerMap : Map<Long, Long>,
+	val fertilizerToWaterMap : Map<Long, Long>,
+	val waterToLightMap : Map<Long, Long>,
+	val lightToTemperatureMap : Map<Long, Long>,
+	val temperatureToHumidityMap : Map<Long, Long>,
+	val humidityToLocationMap : Map<Long, Long>
 ) {
 	companion object {
-		fun fromLines(lines: List<String>): Almanac {
-			val seeds = lines[0].substring(7).split(" ").map(String::trim).map(String::toLong)
+		fun fromLines(lines : List<String>, part : Int = 1) : Almanac {
+			val seeds =
+				if (part == 1) lines[0].substring(7).split(" ").map(String::trim).map(String::toLong) else lines[0].substring(7)
+					.split(" ").map(String::trim).map(String::toLong).chunked(2)
+					.flatMap { (it.first()..<it.first() + it.last()).map { i -> i } }
 			val seedToSoilMap = populateMap(lines, "seed-to-soil map:")
 			val soilToFertilizerMap = populateMap(lines, "soil-to-fertilizer map:")
 			val fertilizerToWaterMap = populateMap(lines, "fertilizer-to-water map:")
@@ -33,13 +36,18 @@ data class Almanac(
 			)
 		}
 		
-		private fun populateMap(lines: List<String>, key: String): Map<Long, Long> {
+		private fun populateMap(lines : List<String>, key : String) : Map<Long, Long> {
 			val map = mutableMapOf<Long, Long>()
 			val keyLine = lines.indexOf(key)
 			val section = mutableListOf<String>()
 			var index = keyLine + 1
 			while (true) {
-				if (try { lines[index].isBlank() } catch (e: Throwable) { true }) break
+				if (try {
+						lines[index].isBlank()
+					} catch (e : Throwable) {
+						true
+					}
+				) break
 				section.add(lines[index])
 				index++
 			}
