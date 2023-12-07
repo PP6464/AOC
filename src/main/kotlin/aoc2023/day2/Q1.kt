@@ -12,5 +12,5 @@ fun main() {
 			res += game.id
 		}
 	}
-	print(res)
+	println(res)
 }

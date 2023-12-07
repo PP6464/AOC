@@ -10,5 +10,5 @@ fun main() {
 		val lowestPossible = game.lowestPossible()
 		res += lowestPossible["red"]!! * lowestPossible["green"]!! * lowestPossible["blue"]!!
 	}
-	print(res)
+	println(res)
 }
