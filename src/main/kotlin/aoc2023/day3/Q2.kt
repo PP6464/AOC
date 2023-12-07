@@ -17,5 +17,5 @@ fun main() {
 			gearRatioSums += numbersAdjacentTo.first().value * numbersAdjacentTo.last().value
 		}
 	}
-	print(gearRatioSums)
+	println(gearRatioSums)
 }
