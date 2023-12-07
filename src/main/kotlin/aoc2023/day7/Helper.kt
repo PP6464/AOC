@@ -1,6 +1,7 @@
 package aoc2023.day7
 
 val cardOrder = listOf("2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K", "A")
+
 enum class HandType {
 	HIGH_CARD,
 	ONE_PAIR,
@@ -60,7 +61,7 @@ data class Hand(val bid : Int, val cards : String) : Comparable<Hand> {
 			else HandType.HIGH_CARD
 		}
 	
-	fun value(rank: Int) = rank * bid
+	fun value(rank : Int) = rank * bid
 	override fun compareTo(other : Hand) : Int {
 		return if (type == other.type) {
 			var res = 0
@@ -75,16 +76,17 @@ data class Hand(val bid : Int, val cards : String) : Comparable<Hand> {
 				}
 			}
 			res
-		}
-		else if (type > other.type) 1
+		} else if (type > other.type) 1
 		else -1
 	}
 	
 	companion object {
-		fun fromLines(lines: List<String>) : List<Hand> {
+		fun fromLines(lines : List<String>) : List<Hand> {
 			val res = mutableListOf<Hand>()
 			for (line in lines) {
 				val (cards, bidStr) = line.split(" ")
+				val bid = bidStr.toInt()
+				res += Hand(cards = cards, bid = bid)
 			}
 			return res
 		}
