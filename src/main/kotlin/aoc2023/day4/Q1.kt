@@ -9,5 +9,5 @@ fun main() {
     for (card in cards) {
         totalValue += card.value
     }
-    print(totalValue)
+    println(totalValue)
 }

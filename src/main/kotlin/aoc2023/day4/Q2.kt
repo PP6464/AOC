@@ -17,5 +17,5 @@ fun main() {
             cardCopies[i] = cardCopies[i]!! + cardCopies[index]!!
         }
     }
-    print(cardCopies.values.reduce(Int::plus))
+    println(cardCopies.values.reduce(Int::plus))
 }
