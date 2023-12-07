@@ -8,5 +8,5 @@ fun main() {
 	for (line in lines) {
 		res += line.firstNotNullOf(Char::digitToIntOrNull) * 10 + line.map(Char::digitToIntOrNull).filterNotNull().last()
 	}
-	print(res)
+	println(res)
 }
