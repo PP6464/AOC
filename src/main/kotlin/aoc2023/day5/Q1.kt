@@ -5,7 +5,7 @@ import java.io.File
 fun main() {
 	val lines = File("assets/2023/day5/input.txt").readLines()
 	val almanac = Almanac.fromLines(lines)
-	print(
+	println(
 		almanac
 			.seeds
 			.map {
