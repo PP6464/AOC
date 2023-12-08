@@ -8,13 +8,13 @@ fun List<Node>.findNode(name : String) : Node {
 
 data class Map(val nodes : List<Node>, val path : String) {
 	var stepsTaken = 0
-	private var currentNode = nodes.findNode("AAA")
+	var currentNode = try { nodes.findNode("AAA") } catch (e: Throwable) { nodes.first() }
 	
-	fun takeStep() : Boolean {
+	fun takeStep(part: Int = 1) : Boolean {
 		val direction = if (path[stepsTaken % path.length] == 'L') 0 else 1
 		currentNode = nodes.findNode(currentNode.options[direction])
 		stepsTaken++
-		return currentNode.name == "ZZZ"
+		return if (part == 1) currentNode.name == "ZZZ" else currentNode.name.endsWith('Z')
 	}
 	companion object {
 		fun fromLines(lines : List<String>) : Map {
