@@ -8,7 +8,7 @@ fun List<Node>.findNode(name : String) : Node {
 
 data class Map(val nodes : List<Node>, val path : String) {
 	var stepsTaken = 0
-	private var currentNode = nodes.first()
+	private var currentNode = nodes.findNode("AAA")
 	
 	fun takeStep() : Boolean {
 		val direction = if (path[stepsTaken % path.length] == 'L') 0 else 1
