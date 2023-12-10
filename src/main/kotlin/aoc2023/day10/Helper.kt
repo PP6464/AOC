@@ -10,6 +10,7 @@ enum class Direction {
 	
 	fun isValidPipeChar(pipeChar : PipeChar) : Boolean {
 		return when (pipeChar) {
+			PipeChar.START -> true
 			PipeChar.VERTICAL_PIPE -> when (this) {
 				UP, DOWN -> true
 				else -> false
@@ -47,6 +48,7 @@ enum class PipeChar {
 	@Suppress("EnumEntryName")
 	`7_BEND`,
 	F_BEND,
+	START,
 	GROUND;
 	
 	companion object {
@@ -58,6 +60,7 @@ enum class PipeChar {
 				'J' -> J_BEND
 				'7' -> `7_BEND`
 				'F' -> F_BEND
+				'S' -> START
 				else -> GROUND
 			}
 		}
@@ -98,22 +101,33 @@ data class Pipes(val lines : List<String>) {
 		return options
 	}
 	
-	fun findLargestLoop() : List<Coord> {
-		val options = optionsFor(startingCoord)
-		val restOfLoop = options.map {
-			it to optionsFor(it).filterNot { x -> x == startingCoord }
-		}.map {
-			it.first to it.second.map { x -> completeLoopFor(x) }.maxBy { x -> x.size }
-		}.maxBy {
-			it.second.size
-		}
-		return mutableListOf(startingCoord, restOfLoop.first).apply {
-			addAll(restOfLoop.second)
-		}
+	fun findLoop() : List<Coord> {
+		return completeLoopFor(startingCoord, startingCoord)!!
 	}
 	
-	private fun completeLoopFor(coord: Coord) : List<Coord> {
-		val options = optionsFor(coord)
-		return if (options.contains(startingCoord)) listOf(startingCoord) else options.map { completeLoopFor(it) }.maxBy { it.size }
+	private fun completeLoopFor(coord: Coord, vararg exclusions: Coord) : List<Coord>? {
+		val options = optionsFor(coord).filterNot { exclusions.contains(it) }.run {
+			val mutable = toMutableList()
+			if (coord == startingCoord) {
+				mutable.removeLast()
+				mutable
+			} else mutable
+		}
+		if (options.isEmpty()) return null
+		return if (options.contains(startingCoord)) listOf(startingCoord) else try {
+			mutableListOf(coord).apply {
+				addAll(
+					options.mapNotNull {
+						completeLoopFor(
+							it,
+							coord
+						)
+					}
+						.maxBy { it.size }
+				)
+			}
+		} catch (e: Throwable) {
+			null
+		}
 	}
 }
