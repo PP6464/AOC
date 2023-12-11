@@ -1,10 +1,8 @@
 package aoc2023.day11
 
-data class Point(val x: Int, val y: Int)
+import kotlin.math.abs
 
-fun <T> List<List<T>>.getAtPoint(point : Point) : T {
-	return this[point.y][point.x]
-}
+data class Point(val x : Int, val y : Int)
 
 fun String.copy(n : Int) : String {
 	val sb = StringBuilder()
@@ -14,8 +12,8 @@ fun String.copy(n : Int) : String {
 	return sb.toString()
 }
 
-data class Universe(val lines: List<String>) {
-	val expanded: List<String>
+data class Universe(val lines : List<String>) {
+	private val expanded : List<String>
 		get() {
 			val emptyColumnsAt = (lines[0].indices).filter { !lines.any { l -> l[it] == '#' } }
 			val emptyRowsAt = lines.indices.filter { lines[it].all { x -> x == '.' } }
@@ -30,4 +28,20 @@ data class Universe(val lines: List<String>) {
 			}
 			return linesCopy
 		}
+	
+	private val galaxies : List<Point>
+		get() = expanded.withIndex().filter { (_, value) -> value.contains("#") }
+			.flatMap { (index, value) -> value.withIndex().filter { (_, v) -> v == '#' }.map { (i, _) -> Point(i, index) } }
+	
+	val shortestDistances : List<Int>
+		get() {
+			val distances = mutableListOf<Int>()
+			for (i in galaxies.indices) {
+				for (j in i..<galaxies.size) {
+					distances.add(abs(galaxies[i].x - galaxies[j].x) + abs(galaxies[i].y - galaxies[j].y))
+				}
+			}
+			return distances
+		}
+	
 }
