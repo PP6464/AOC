@@ -24,7 +24,7 @@ data class Universe(val lines: List<String>) {
 				linesCopy.add(index + iterations, ".".copy(lines[0].length))
 			}
 			for ((iterations, index) in emptyColumnsAt.withIndex()) {
-				repeat(lines.size) {
+				repeat(linesCopy.size) {
 					linesCopy[it] = linesCopy[it].toMutableList().apply { add(index + iterations, '.') }.joinToString("")
 				}
 			}
